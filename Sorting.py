@@ -39,8 +39,53 @@ def selection_sort (list):
                     max = idx_i
         swap (list, max, list_len-1)
         list_len -= 1
-    
-test =[1, "a", 3, 4, 5]
-bubble_sort(test)
-selection_sort(test)
-print test
+
+def insert_sort(list):
+    list_len = len(list)
+    for idx_i in range(1, list_len):
+        idx_j = idx_i
+        while list[idx_j] < list[idx_j-1] and idx_j > 0:
+            swap (list, idx_j, idx_j-1)
+            idx_j -= 1
+
+
+def binary_search(list, value):
+    """
+    Find value (first match) in a sorted list
+    """
+    list_len = len(list)
+    idx = -1 
+    begin = 0
+    end = list_len-1  
+    while begin <= end: 
+        median = begin + int((end - begin)/2) 
+        if value < list[median]:
+            end = median - 1 
+        elif value > list[median]:
+            begin = median + 1
+        else:
+            idx = median
+            return idx
+
+def binary_search_recur_helper(list, begin, end, value):
+    median = begin + int((end-begin)/2)
+    if begin > end:
+        return
+    elif value == list[median]:
+        return median
+    else:
+        if value < list[median]:
+            return binary_search_recur_helper(list, begin, median-1, value)
+        else:
+            return binary_search_recur_helper(list, median+1, end, value)
+
+def binary_search_recur (list, value):
+    return binary_search_recur_helper(list, 0, len(list)-1, value)
+
+
+test =[1, 2, 3, 8, 9]
+#bubble_sort(test)
+#selection_sort(test)
+#insert_sort(test)
+#print binary_search(test,11)
+print binary_search_recur(test, 22)
