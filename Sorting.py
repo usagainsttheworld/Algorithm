@@ -82,10 +82,60 @@ def binary_search_recur_helper(list, begin, end, value):
 def binary_search_recur (list, value):
     return binary_search_recur_helper(list, 0, len(list)-1, value)
 
+def partition_slow (list, begin, end):
+    """
+    take a list, put the first element of the list to a position that all elements on its left is smaller
+    than it and all the elements on its right is bigger, the order of all other elements does not
+    matter. the funciton returns the first element's index after partition process
+    """
+    list_len = len(list)
+    first_element = list[begin]
+    for index_i in range (begin+1, end+1):
+        index_j = index_i
+        while list[index_j] > list[index_j-1] and index_j > begin:
+            if list[index_j]== first_element:
+                break
+            else:
+                index_j -=1
+        while list[index_j] < list[index_j-1] and index_j > begin:
+            swap (list, index_j, index_j-1)
+            if list[index_j]== first_element:
+                break
+            else:
+                index_j -=1
+    return index_j
 
-test =[1, 2, 3, 8, 9]
+def partition (list, begin, end):
+    key = list[begin]
+    idx_i = begin + 1
+    idx_j = begin + 1
+    while idx_i < len(list):
+        if list[idx_i] < key:
+            swap(list, idx_i, idx_j)
+            idx_i +=1
+            idx_j +=1
+        elif list[idx_i] > key:
+            idx_i +=1  
+    swap (list, begin, idx_j-1)
+    return idx_j-1
+
+def quick_sort(list, begin, end):
+    if begin >= end:
+        return
+    else:
+        pivot = partition(list, begin, end)
+        quick_sort (list, begin, pivot-1)
+        quick_sort (list, pivot+1, end)
+
+test =[5,4,3,2,1]
+test_b = [1,2,3,4,5]
+test_r = [3,5,7,1,2,0,9]
+test_p = [2,3,4,5]
 #bubble_sort(test)
 #selection_sort(test)
 #insert_sort(test)
 #print binary_search(test,11)
-print binary_search_recur(test, 22)
+#print binary_search_recur(test, 22)
+#print partition(test_r, 0, 4)
+quick_sort(test_r, 0, len(test_r)-1)
+print test_r
