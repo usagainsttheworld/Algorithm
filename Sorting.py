@@ -127,15 +127,56 @@ def quick_sort(list, begin, end):
         quick_sort (list, begin, pivot-1)
         quick_sort (list, pivot+1, end)
 
-test =[5,4,3,2,1]
-test_b = [1,2,3,4,5]
-test_r = [3,5,7,1,2,0,9]
-test_p = [2,3,4,5]
-#bubble_sort(test)
-#selection_sort(test)
-#insert_sort(test)
-#print binary_search(test,11)
-#print binary_search_recur(test, 22)
-#print partition(test_r, 0, 4)
-quick_sort(test_r, 0, len(test_r)-1)
-print test_r
+def merge_list(list, begin1, end1, begin2, end2):
+    """
+    This function takes a list, and two interval (begin1-end1, begin2-end2).
+    the elements within the interval are sorted. 
+    The two interval are neighers(end1+1 = begin2). 
+    Sort for all elements of both interval and put them back to the list in 
+    sorted order, and return the list.
+    """
+    temp_list = []
+    idx_i = begin1
+    idx_j = begin2
+    while idx_i <= end1 and idx_j <= end2:
+        if list[idx_i] <= list[idx_j]:
+            temp_list.append(list[idx_i])
+            idx_i += 1
+        else:
+            temp_list.append(list[idx_j])
+            idx_j += 1
+    if idx_i > end1:
+        while idx_j <= end2:
+            temp_list.append(list[idx_j])
+            idx_j += 1
+    elif idx_j > end2:
+        while idx_i <= end1:
+            temp_list.append(list[idx_i])
+            idx_i += 1
+    idx_temp = 0
+    for idx in range (begin1, end2+1):
+        list[idx] = temp_list[idx_temp]
+        idx_temp += 1
+
+def merge_sort (list, begin, end):
+    if begin >= end:
+        return
+    else:
+        median = begin+(end-begin)/2
+        merge_sort(list, begin, median)
+        merge_sort(list, median+1, end)
+        merge_list(list, begin, median, median+1, end)
+
+
+test1 =[5,4,3,2,1]
+test2 = [1,2,3,4,5]
+test3 = [3,5,7,1,2,0,9]
+test4 = [2,3,4,5]
+test5 = [5,9,4,5,6,7,1,2,0]
+test6 = [1,3,5,7,9,2,4,6,8,10]
+test7 = [1]
+test8 = [3,1]
+
+merge_sort(test3, 0, 6)
+print test3
+
